@@ -23,6 +23,7 @@
 
   <preference name="URL_SCHEME" />
   <preference name="URL_HOST" />
+  <preference name="URL_PATTERN" />
 
 
   <engines>
@@ -63,7 +64,7 @@
 
     <config-file target="AndroidManifest.xml" parent="/*/application/activity">
       <intent-filter>
-        <data android:scheme="$URL_SCHEME" android:host="$URL_HOST"/>
+        <data android:scheme="$URL_SCHEME" android:host="$URL_HOST" android:pathPattern="$URL_PATTERN"/>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
