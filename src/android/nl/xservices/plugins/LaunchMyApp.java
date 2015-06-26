@@ -46,7 +46,7 @@ public class LaunchMyApp extends CordovaPlugin {
       try {
         StringWriter writer = new StringWriter(intentString.length() * 2);
         escapeJavaStyleString(writer, intentString, true, false);
-        webView.loadUrl("javascript:handleOpenURL('" + writer.toString() + "');");
+        webView.loadUrl("javascript:handleOpenURL2('" + writer.toString() + "');");
       } catch (IOException ignore) {
       }
     }
