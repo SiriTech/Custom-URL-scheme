@@ -13,25 +13,35 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
+import android.util.Log;
+
 public class LaunchMyApp extends CordovaPlugin {
 
+	private static final String TAG = "LaunchMyApp";
+	
   private static final String ACTION_CHECKINTENT = "checkIntent";
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+		Log.i(TAG, "action=" + action);
     if (ACTION_CHECKINTENT.equalsIgnoreCase(action)) {
+			Log.i(TAG, "if1=true");
       final Intent intent = ((CordovaActivity) this.webView.getContext()).getIntent();
       final String intentString = intent.getDataString();
+			Log.i(TAG, "intentString=" + intentString);
       if (intentString != null && intentString.contains("://") &&
           intent.getScheme() != null && intent.hasCategory(Intent.CATEGORY_BROWSABLE)) {
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, intent.getDataString()));
         intent.setData(null);
+				Log.i(TAG, "if2=true");
         return true;
       } else {
         callbackContext.error("App was not started via the launchmyapp URL scheme. Ignoring this errorcallback is the best approach.");
+				Log.i(TAG, "if2=false");
         return false;
       }
     } else {
+			Log.i(TAG, "if1=false");
       callbackContext.error("This plugin only responds to the " + ACTION_CHECKINTENT + " action.");
       return false;
     }
@@ -42,11 +52,14 @@ public class LaunchMyApp extends CordovaPlugin {
     final String intentString = intent.getDataString();
     if (intentString != null && intentString.contains("://") &&
         intent.getScheme() != null && intent.hasCategory(Intent.CATEGORY_BROWSABLE)) {
+			Log.i(TAG, "onNewIntent if1=true");
       intent.setData(null);
       try {
         StringWriter writer = new StringWriter(intentString.length() * 2);
         escapeJavaStyleString(writer, intentString, true, false);
-        webView.loadUrl("javascript:handleOpenURL('" + writer.toString() + "');");
+				String s = writer.toString();
+				Log.i(TAG, "onNewIntent writer.toString = "+s);
+        webView.loadUrl("javascript:handleOpenURL('" + s + "');");
       } catch (IOException ignore) {
       }
     }
